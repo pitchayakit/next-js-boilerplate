@@ -31,7 +31,12 @@ export async function getProperties(query) {
     };
   }
 
-  const properties = await Property.findAll({ where });
-  
+  const limit = 10; // number of records per page
+  const page = query.page ? Number(query.page) : 1;
+  const offset = (page - 1) * limit;
+
+
+  const properties = await Property.findAll({ where, limit, offset });
+
   return JSON.parse(JSON.stringify(properties));
 }
