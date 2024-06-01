@@ -6,6 +6,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "../app/globals.css";
 import Image from "next/image";
+import ReactPaginate from "react-paginate";
 
 export async function getServerSideProps(context) {
     const properties = await getProperties(context.query);
@@ -157,7 +158,7 @@ export default function Properties({ properties }) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                 {properties.data.map((property) => (
                     <div key={property.id} className="border p-4 rounded-md">
-                      <Carousel>
+                        <Carousel>
                             {property.imageGallery.map((image, index) => (
                                 <div key={index}>
                                     <Image
@@ -186,27 +187,41 @@ export default function Properties({ properties }) {
                 ))}
             </div>
             <div className="my-4 flex justify-center">
-                {[...Array(properties.pages)].map((_, i) => (
-                    <button
-                        key={i}
-                        onClick={() =>
-                            router.push({
-                                pathname: "/properties",
-                                query: {
-                                    ...router.query,
-                                    page: i + 1,
-                                },
-                            })
-                        }
-                        className={`px-4 py-2 rounded-md ${
-                            Number(router.query.page) === i + 1
-                                ? "bg-blue-500 text-white"
-                                : "bg-white text-black"
-                        }`}
-                    >
-                        {i + 1}
-                    </button>
-                ))}
+                <ReactPaginate
+                    previousLabel={"previous"}
+                    nextLabel={"next"}
+                    breakLabel={"..."}
+                    breakClassName={"break-me"}
+                    pageCount={properties.pages}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={({ selected }) =>
+                        router.push({
+                            pathname: "/properties",
+                            query: {
+                                ...router.query,
+                                page: selected + 1,
+                            },
+                        })
+                    }
+                    containerClassName={
+                        "pagination flex list-none justify-center my-2"
+                    }
+                    subContainerClassName={"pages pagination"}
+                    activeClassName={"border-blue-500 text-blue-500"}
+                    pageClassName={"mx-1"}
+                    pageLinkClassName={
+                        "px-3 py-1 block border border-transparent rounded transition-all duration-200"
+                    }
+                    pageLinkClassNameActive={"border-blue-500 text-blue-500"}
+                    pageLinkClassNameHover={"border-blue-500 text-blue-500"}
+                    previousLinkClassName={
+                        "px-3 py-1 block border border-transparent rounded transition-all duration-200"
+                    }
+                    nextLinkClassName={
+                        "px-3 py-1 block border border-transparent rounded transition-all duration-200"
+                    }
+                />
             </div>
         </div>
     );

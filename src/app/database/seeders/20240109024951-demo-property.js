@@ -4,7 +4,7 @@ const { faker } = require("@faker-js/faker");
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        const fakeProperties = Array.from({ length: 50 }).map(() => ({
+        const fakeProperties = Array.from({ length: 10000 }).map(() => ({
             projectName: faker.company.name(),
             shortTitle: faker.lorem.words(3),
             price: faker.commerce.price(),
