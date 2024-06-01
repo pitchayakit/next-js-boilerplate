@@ -21,7 +21,7 @@ const Property = (sequelize) => {
         allowNull: false,
       },
       area: {
-        type: DataTypes.FLOAT,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       shortDescription: {

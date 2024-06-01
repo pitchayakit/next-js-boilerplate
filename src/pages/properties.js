@@ -25,9 +25,6 @@ export default function Properties({ properties }) {
     const [maxPrice, setMaxPrice] = useState("");
     const [minBedrooms, setMinBedrooms] = useState("");
     const [maxBedrooms, setMaxBedrooms] = useState("");
-    const [minArea, setMinArea] = useState("");
-    const [maxArea, setMaxArea] = useState("");
-    
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -116,26 +113,6 @@ export default function Properties({ properties }) {
                         className="border"
                     />
                 </div>
-                <div className="flex items-center space-x-2">
-                    <label htmlFor="minArea">Min Area:</label>
-                    <input
-                        id="minArea"
-                        type="number"
-                        value={minArea}
-                        onChange={(e) => setMinArea(e.target.value)}
-                        className="border"
-                    />
-                </div>
-                <div className="flex items-center space-x-2">
-                    <label htmlFor="maxArea">Max Area:</label>
-                    <input
-                        id="maxArea"
-                        type="number"
-                        value={maxArea}
-                        onChange={(e) => setMaxArea(e.target.value)}
-                        className="border"
-                    />
-                </div>
                 <button
                     type="submit"
                     className="px-4 py-2 bg-blue-500 text-white rounded-md"
@@ -159,9 +136,12 @@ export default function Properties({ properties }) {
                 </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
                 {properties.data.map((property) => (
-                    <div key={property.id} className="border p-4 rounded-md">
+                    <div
+                        key={property.id}
+                        className="border p-4 rounded-lg space-y-4"
+                    >
                         <Carousel>
                             {property.imageGallery.map((image, index) => (
                                 <div key={index}>
@@ -173,23 +153,54 @@ export default function Properties({ properties }) {
                                         alt={`Property ${property.id} Image ${
                                             index + 1
                                         }`}
-                                        className="w-full h-64 object-cover"
+                                        className="w-full h-64 object-cover rounded-t-lg"
                                     />
                                 </div>
                             ))}
                         </Carousel>
-                        <h2 className="text-lg font-bold">
+                        <h2 className="text-xl font-semibold">
                             {property.projectName}
                         </h2>
-                        <p>For Rent: {property.forRent ? "Yes" : "No"}</p>
-                        <p>For Sale: {property.forSale ? "Yes" : "No"}</p>
-                        <p>{property.shortTitle}</p>
-                        <p>Price: {property.price}</p>
-                        <p>Bedrooms: {property.bedroomCount}</p>
-                        <p>Area: {property.area}</p>
+                        <p className="text-gray-700">{property.shortTitle}</p>
+                        <p className="text-sm text-gray-500">
+                            {property.shortDescription}
+                        </p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <p className="border p-4 rounded-md flex justify-between items-center bg-gray-100">
+                                For Rent:{" "}
+                                <span className="font-bold">
+                                    {property.forRent ? "Yes" : "No"}
+                                </span>
+                            </p>
+                            <p className="border p-4 rounded-md flex justify-between items-center bg-gray-100">
+                                For Sale:{" "}
+                                <span className="font-bold">
+                                    {property.forSale ? "Yes" : "No"}
+                                </span>
+                            </p>
+                            <p className="border p-4 rounded-md flex justify-between items-center bg-gray-100">
+                                Price:{" "}
+                                <span className="font-bold">
+                                    {property.price}
+                                </span>
+                            </p>
+                            <p className="border p-4 rounded-md flex justify-between items-center bg-gray-100">
+                                Bedrooms:{" "}
+                                <span className="font-bold">
+                                    {property.bedroomCount}
+                                </span>
+                            </p>
+                            <p className="border p-4 rounded-md flex justify-between items-center bg-gray-100">
+                                Area:{" "}
+                                <span className="font-bold">
+                                    {property.area}
+                                </span>
+                            </p>
+                        </div>
                     </div>
                 ))}
             </div>
+
             <div className="my-4 flex justify-center">
                 <ReactPaginate
                     previousLabel={"previous"}

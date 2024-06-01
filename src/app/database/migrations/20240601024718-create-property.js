@@ -20,7 +20,7 @@ module.exports = {
                 type: Sequelize.INTEGER,
             },
             area: {
-                type: Sequelize.FLOAT,
+                type: Sequelize.STRING,
             },
             shortDescription: {
                 type: Sequelize.TEXT,
