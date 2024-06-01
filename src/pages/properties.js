@@ -16,6 +16,9 @@ export async function getServerSideProps(context) {
 
 export default function Properties({ properties }) {
     const router = useRouter();
+    const numberFormat = new Intl.NumberFormat("en-US");
+
+    // Form state
     const [forSale, setForSale] = useState(false);
     const [forRent, setForRent] = useState(false);
     const [minPrice, setMinPrice] = useState("");
@@ -24,6 +27,7 @@ export default function Properties({ properties }) {
     const [maxBedrooms, setMaxBedrooms] = useState("");
     const [minArea, setMinArea] = useState("");
     const [maxArea, setMaxArea] = useState("");
+    
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -141,7 +145,7 @@ export default function Properties({ properties }) {
             </form>
 
             <div className="flex justify-between">
-                <p>Total Properties: {properties.total}</p>
+                <p>Total Properties: {numberFormat.format(properties.total)}</p>
                 <button
                     onClick={() =>
                         router.push({
