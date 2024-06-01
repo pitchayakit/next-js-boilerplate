@@ -14,6 +14,9 @@ module.exports = {
             imageGallery: JSON.stringify([
                 faker.image.urlLoremFlickr(),
                 faker.image.urlLoremFlickr(),
+                faker.image.urlLoremFlickr(),
+                faker.image.urlLoremFlickr(),
+                faker.image.urlLoremFlickr(),
             ]),
             forSale: faker.number.int({ min: 0, max: 1 }),
             forRent: faker.number.int({ min: 0, max: 1 }),

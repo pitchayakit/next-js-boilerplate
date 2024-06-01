@@ -46,7 +46,7 @@ export async function getProperties(query) {
         };
     }
 
-    const limit = 10; // number of records per page
+    const limit = 9; // number of records per page
     const page = query.page ? Number(query.page) : 1;
     const offset = (page - 1) * limit;
 

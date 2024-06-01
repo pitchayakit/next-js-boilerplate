@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { getProperties } from "../app/services/property.service.js";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "../app/globals.css";
 import Image from "next/image";
 
@@ -155,6 +157,22 @@ export default function Properties({ properties }) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                 {properties.data.map((property) => (
                     <div key={property.id} className="border p-4 rounded-md">
+                      <Carousel>
+                            {property.imageGallery.map((image, index) => (
+                                <div key={index}>
+                                    <Image
+                                        key={index}
+                                        src={image}
+                                        width={300}
+                                        height={200}
+                                        alt={`Property ${property.id} Image ${
+                                            index + 1
+                                        }`}
+                                        className="w-full h-64 object-cover"
+                                    />
+                                </div>
+                            ))}
+                        </Carousel>
                         <h2 className="text-lg font-bold">
                             {property.projectName}
                         </h2>
@@ -164,21 +182,6 @@ export default function Properties({ properties }) {
                         <p>Price: {property.price}</p>
                         <p>Bedrooms: {property.bedroomCount}</p>
                         <p>Area: {property.area}</p>
-
-                        <div className="grid grid-cols-3 gap-4">
-                            {property.imageGallery.map((image, index) => (
-                                <Image
-                                    key={index}
-                                    src={image}
-                                    width={300}
-                                    height={200}
-                                    alt={`Property ${property.id} Image ${
-                                        index + 1
-                                    }`}
-                                    className="w-full h-64 object-cover"
-                                />
-                            ))}
-                        </div>
                     </div>
                 ))}
             </div>
