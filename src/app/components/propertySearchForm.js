@@ -117,7 +117,7 @@ export const PropertySearchForm = ({ onSearch, areas }) => {
                         value: area,
                     }))}
                     isMulti
-                    className="min-w-[200px]"
+                    className="min-w-[200px] z-50"
                 />
             </div>
             <button

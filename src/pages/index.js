@@ -21,13 +21,15 @@ export default function Properties({ properties, areas }) {
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSearch = (searchParams) => {
+        setIsLoading(true);
+
         router.push({
             pathname: "/",
             query: {
                 ...searchParams,
                 page: 1, // always go back to the first page when the form is submitted
             },
-        });
+        }).then(() => setIsLoading(false));
     };
 
     const handlePageChange = ({ selected }) => {
