@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import dbConfig from "../config/database.js";
+import dbConfig from "../config/database.mjs";
 import process from "process";
 
 const sequelize = new Sequelize(

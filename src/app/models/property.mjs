@@ -42,8 +42,9 @@ const Property = (sequelize) => {
       },
     },
     {
-      tableName: 'properties',
-      underscored: true,
+      tableName: 'Properties',
+      underscored: false,
+      timestamps: true,
     }
   );
 

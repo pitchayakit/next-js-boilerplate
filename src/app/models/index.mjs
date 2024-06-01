@@ -1,9 +1,9 @@
 import { Sequelize } from "sequelize";
-import User from "./user.js";
-import sequelize from "../database/sequelize.js";
+import Property from "./property.mjs";
+import sequelize from "../database/sequelize.mjs";
 
 const models = {
-    User: User(sequelize, Sequelize),
+    Property: Property(sequelize, Sequelize),
 };
 
 Object.keys(models).forEach((key) => {
