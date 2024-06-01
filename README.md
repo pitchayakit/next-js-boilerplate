@@ -29,9 +29,17 @@ docker-compose up
 
 This command will start all the services defined in docker-compose.yml.
 
+Please be patient while the database is being seeded. This process can take some time, especially if there are a large number of seeders ( 1,000,000 by default). The image below illustrates the seeding process.
+
+![Screenshot of the application](./doc/images/seeder_process.png)
+
+Refer to the custom seeder at [Property seeder](https://github.com/pitchayakit/next-js-boilerplate/blob/master/src/app/database/seeders/20240109024951-demo-property.js).
+
 ## Accessing the Server
 
 Once the server is up and running, you can access it at:
 ```
 http://localhost:3000
 ```
+
+![Screenshot of the application](./doc/images/home_page.png)
