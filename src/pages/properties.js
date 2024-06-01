@@ -29,7 +29,7 @@ export default function Properties({ properties, areas }) {
     const [maxPrice, setMaxPrice] = useState("");
     const [minBedrooms, setMinBedrooms] = useState("");
     const [maxBedrooms, setMaxBedrooms] = useState("");
-    const [area, setArea] = useState("");
+    const [area, setArea] = useState([]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -123,6 +123,7 @@ export default function Properties({ properties, areas }) {
                     </label>
                     <Select
                         id="area"
+                        value={area.map((area) => ({ label: area, value: area }))} // Convert area array to an array of objects
                         onChange={(selectedOptions) => {
                             const selectedAreas = selectedOptions.map(
                                 (option) => option.value
@@ -143,10 +144,6 @@ export default function Properties({ properties, areas }) {
                 >
                     Search
                 </button>
-            </form>
-
-            <div className="flex justify-between">
-                <p>Total Properties: {numberFormat.format(properties.total)}</p>
                 <button
                     onClick={() => {
                         router.push({
@@ -160,12 +157,17 @@ export default function Properties({ properties, areas }) {
                         setMinPrice("");
                         setMinBedrooms("");
                         setMaxBedrooms("");
-                        setArea("");
+                        setArea([]);
                     }}
                     className="px-4 py-2 bg-red-500 text-white rounded-md"
                 >
                     Reset Search
                 </button>
+            </form>
+
+            <div className="flex justify-between">
+                <p>Total Properties: {numberFormat.format(properties.total)}</p>
+                
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
