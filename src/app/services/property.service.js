@@ -8,6 +8,8 @@ export async function getProperties(query) {
     const forRent = query.forRent === "true";
     const minPrice = Number(query.minPrice) || null;
     const maxPrice = Number(query.maxPrice) || null;
+    const minBedrooms = Number(query.minBedrooms) || null;
+    const maxBedrooms = Number(query.maxBedrooms) || null;
 
     const where = {};
     if (forSale) {
@@ -28,6 +30,19 @@ export async function getProperties(query) {
         where.price = {
             ...where.price,
             [Sequelize.Op.lte]: maxPrice,
+        };
+    }
+
+    if (minBedrooms !== null) {
+        where.bedroomCount = {
+            [Sequelize.Op.gte]: minBedrooms,
+        };
+    }
+
+    if (maxBedrooms !== null) {
+        where.bedroomCount = {
+            ...where.bedroomCount,
+            [Sequelize.Op.lte]: maxBedrooms,
         };
     }
 

@@ -47,7 +47,10 @@ export default function Properties({ properties }) {
             <h1 className="font-bold text-center py-6 text-6xl">
                 Properties for sale and rent in Thailand
             </h1>
-            <form onSubmit={handleSubmit} className="flex flex-wrap space-x-4 space-y-2 justify-center">
+            <form
+                onSubmit={handleSubmit}
+                className="flex flex-wrap space-x-4 space-y-2 justify-center"
+            >
                 <div className="flex items-center space-x-2 pt-2">
                     <input
                         id="forSale"
@@ -132,6 +135,10 @@ export default function Properties({ properties }) {
                 >
                     Search
                 </button>
+            </form>
+
+            <div className="flex justify-between">
+                <p>Total Properties: {properties.total}</p>
                 <button
                     onClick={() =>
                         router.push({
@@ -143,8 +150,8 @@ export default function Properties({ properties }) {
                 >
                     Clear Search
                 </button>
-            </form>
-            <p>Total Properties: {properties.total}</p>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                 {properties.data.map((property) => (
                     <div key={property.id} className="border p-4 rounded-md">
