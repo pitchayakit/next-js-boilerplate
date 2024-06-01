@@ -59,7 +59,12 @@ export async function getProperties(query) {
     const page = query.page ? Number(query.page) : 1;
     const offset = (page - 1) * limit;
 
-    const { count, rows } = await Property.findAndCountAll({ where, limit, offset });
+    const { count, rows } = await Property.findAndCountAll({ 
+        where, 
+        limit, 
+        offset,
+        order: [["id", "DESC"]],
+    });
 
     return {
         data: JSON.parse(JSON.stringify(rows)),
