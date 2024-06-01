@@ -2,8 +2,8 @@
 import { useRouter } from "next/router";
 import { getProperties, getAreas } from "../app/services/property.service.js";
 import ReactPaginate from "react-paginate"
-import { PropertySearchForm } from "../app/components/propertySearchForm";
-import { PropertyList } from "../app/components/propertyList";
+import { PropertySearchForm } from "../app/components/propertySearchForm.js";
+import { PropertyList } from "../app/components/propertyList.js";
 import "../app/globals.css";
 
 export async function getServerSideProps(context) {
@@ -22,7 +22,7 @@ export default function Properties({ properties, areas }) {
 
     const handleSearch = (searchParams) => {
       router.push({
-          pathname: "/properties",
+          pathname: "/",
           query: {
               ...searchParams,
               page: 1, // always go back to the first page when the form is submitted
@@ -33,13 +33,10 @@ export default function Properties({ properties, areas }) {
     return (
         <div className="container mx-auto">
             <h1 className="font-bold text-center py-6 text-6xl">
-                Properties for sale and rent in Thailand
+                {numberFormat.format(properties.total)} Properties for sale and rent in Thailand
             </h1>
-            <PropertySearchForm onSearch={handleSearch} areas={areas} />
 
-            <div className="flex justify-between py-4">
-                <p>Total Properties: {numberFormat.format(properties.total)}</p>
-            </div>
+            <PropertySearchForm onSearch={handleSearch} areas={areas}/>
 
             <PropertyList properties={properties} />
             
@@ -54,7 +51,7 @@ export default function Properties({ properties, areas }) {
                     pageRangeDisplayed={5}
                     onPageChange={({ selected }) =>
                         router.push({
-                            pathname: "/properties",
+                            pathname: "/",
                             query: {
                                 ...router.query,
                                 page: selected + 1,
@@ -62,7 +59,7 @@ export default function Properties({ properties, areas }) {
                         })
                     }
                     containerClassName={
-                        "pagination flex list-none justify-center my-2"
+                        "pagination flex list-none justify-center my-2 flex-wrap"
                     }
                     subContainerClassName={"pages pagination"}
                     activeClassName={"border-blue-500 text-blue-500"}

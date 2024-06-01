@@ -1,8 +1,12 @@
-// utils/getFilteredProperties.js
 import Sequelize from "sequelize";
 import models from "../models";
 const { Property } = models;
 
+/**
+ * Retrieves properties based on the provided query parameters.
+ * @param {Object} query - The query parameters for filtering properties.
+ * @returns {Promise<Object>} - A promise that resolves to an object containing the retrieved properties.
+ */
 export async function getProperties(query) {
     const forSale = query.forSale === "true";
     const forRent = query.forRent === "true";
@@ -64,6 +68,10 @@ export async function getProperties(query) {
     }
 }
 
+/**
+ * Retrieves unique areas from the properties.
+ * @returns {Promise<string[]>} An array of unique areas.
+ */
 export async function getAreas() {
     const properties = await Property.findAll({
         attributes: ["area"],

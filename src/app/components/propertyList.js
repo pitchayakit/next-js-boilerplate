@@ -8,7 +8,7 @@ export const PropertyList = ({ properties }) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {properties.data.map((property) => (
                 <div key={property.id} className="border rounded-lg pb-4">
-                    <Carousel>
+                    <Carousel showThumbs={false}>
                         {property.imageGallery.map((image, index) => (
                             <div key={index}>
                                 <Image
@@ -25,7 +25,7 @@ export const PropertyList = ({ properties }) => {
                         ))}
                     </Carousel>
 
-                    <div className="px-4">
+                    <div className="p-4">
                         <h2 className="text-xl font-semibold">
                             {property.projectName}
                         </h2>
@@ -39,15 +39,10 @@ export const PropertyList = ({ properties }) => {
                         </p>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                             <p className="border p-4 rounded-md flex justify-between items-center bg-gray-100">
-                                For Rent:{" "}
+                                For Sale / Rent:{" "}
                                 <span className="font-bold">
+                                    {property.forSale ? "Yes" : "No"} /{" "}
                                     {property.forRent ? "Yes" : "No"}
-                                </span>
-                            </p>
-                            <p className="border p-4 rounded-md flex justify-between items-center bg-gray-100">
-                                For Sale:{" "}
-                                <span className="font-bold">
-                                    {property.forSale ? "Yes" : "No"}
                                 </span>
                             </p>
                             <p className="border p-4 rounded-md flex justify-between items-center bg-gray-100">

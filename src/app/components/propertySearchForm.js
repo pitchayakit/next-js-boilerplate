@@ -31,25 +31,33 @@ export const PropertySearchForm = ({ onSearch, areas }) => {
     return (
         <form
             onSubmit={handleSubmit}
-            className="flex flex-wrap space-x-4 space-y-2 justify-center"
+            className="flex flex-wrap space-x-4 space-y-4 justify-center py-4"
         >
-            <div className="flex items-center space-x-2 pt-2">
+            <div className="flex items-center space-x-4 pt-4">
                 <input
                     id="forSale"
                     type="checkbox"
                     checked={forSale}
                     onChange={(e) => setForSale(e.target.checked)}
+                    className="form-checkbox h-5 w-5 text-blue-600" // Add this line
                 />
-                <label htmlFor="forSale">For Sale</label>
+                <label htmlFor="forSale" className="ml-2 text-gray-700">
+                    For Sale
+                </label>
+
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-4">
                 <input
                     id="forRent"
                     type="checkbox"
                     checked={forRent}
                     onChange={(e) => setForRent(e.target.checked)}
+                    className="form-checkbox h-5 w-5 text-blue-600" // Add this line
                 />
-                <label htmlFor="forRent">For Rent</label>
+                <label htmlFor="forRent" className="ml-2 text-gray-700">
+                    For Rent
+                </label>
+
             </div>
             <div className="flex items-center space-x-2">
                 <label htmlFor="minPrice">Min Price:</label>
@@ -121,7 +129,7 @@ export const PropertySearchForm = ({ onSearch, areas }) => {
             <button
                 onClick={() => {
                     router.push({
-                        pathname: "/properties",
+                        pathname: "/",
                         query: {},
                     });
                     setForRent(false);
