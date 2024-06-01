@@ -5,6 +5,7 @@ import ReactPaginate from "react-paginate"
 import { PropertySearchForm } from "../app/components/propertySearchForm.js";
 import { PropertyList } from "../app/components/propertyList.js";
 import "../app/globals.css";
+import { numberWithCommas } from "../app/utilities/convertor.js"
 
 export async function getServerSideProps(context) {
     return {
@@ -17,8 +18,6 @@ export async function getServerSideProps(context) {
 
 export default function Properties({ properties, areas }) {
     const router = useRouter();
-    const numberFormat = new Intl.NumberFormat("en-US");
-
 
     const handleSearch = (searchParams) => {
       router.push({
@@ -33,7 +32,7 @@ export default function Properties({ properties, areas }) {
     return (
         <div className="container mx-auto">
             <h1 className="font-bold text-center py-6 text-6xl">
-                {numberFormat.format(properties.total)} Properties for sale and rent in Thailand
+                {numberWithCommas(properties.total)} Properties for sale and rent in Thailand
             </h1>
 
             <PropertySearchForm onSearch={handleSearch} areas={areas}/>

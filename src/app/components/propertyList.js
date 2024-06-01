@@ -1,7 +1,8 @@
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Image from "next/image";
-
+import { numberWithCommas } from "../utilities/convertor.js";
+ 
 export const PropertyList = ({ properties }) => {
     // Render property list...
     return (
@@ -48,7 +49,7 @@ export const PropertyList = ({ properties }) => {
                             <p className="border p-4 rounded-md flex justify-between items-center bg-gray-100">
                                 Price:{" "}
                                 <span className="font-bold">
-                                    {property.price}
+                                    {numberWithCommas(property.price)} ฿
                                 </span>
                             </p>
                             <p className="border p-4 rounded-md flex justify-between items-center bg-gray-100">
