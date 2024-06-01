@@ -7,6 +7,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "../app/globals.css";
 import Image from "next/image";
 import ReactPaginate from "react-paginate";
+import Select from "react-select";
 
 export async function getServerSideProps(context) {
     return {
@@ -117,20 +118,24 @@ export default function Properties({ properties, areas }) {
                     />
                 </div>
                 <div className="flex items-center space-x-2">
-                    <label htmlFor="area">Area:</label>
-                    <select
+                    <label htmlFor="area" className="text-right mr-3">
+                        Area:
+                    </label>
+                    <Select
                         id="area"
-                        value={area}
-                        onChange={(e) => setArea(e.target.value)}
-                        className="border"
-                    >
-                        <option value="">Select an area</option>
-                        {areas.map((area) => (
-                            <option key={area} value={area}>
-                                {area}
-                            </option>
-                        ))}
-                    </select>
+                        onChange={(selectedOptions) => {
+                            const selectedAreas = selectedOptions.map(
+                                (option) => option.value
+                            );
+                            setArea(selectedAreas);
+                        }}
+                        options={areas.map((area) => ({
+                            label: area,
+                            value: area,
+                        }))}
+                        isMulti
+                        className="min-w-[200px]"
+                    />
                 </div>
                 <button
                     type="submit"
@@ -159,7 +164,7 @@ export default function Properties({ properties, areas }) {
                     }}
                     className="px-4 py-2 bg-red-500 text-white rounded-md"
                 >
-                    Clear Search
+                    Reset Search
                 </button>
             </div>
 
@@ -192,7 +197,10 @@ export default function Properties({ properties, areas }) {
                         <p className="text-sm text-gray-500">
                             {property.shortDescription}
                         </p>
-                        <p className="text-sm text-gray-500"><span className="font-semibold">Area: </span>{property.area}</p>
+                        <p className="text-sm text-gray-500">
+                            <span className="font-semibold">Area: </span>
+                            {property.area}
+                        </p>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                             <p className="border p-4 rounded-md flex justify-between items-center bg-gray-100">
                                 For Rent:{" "}
