@@ -1,0 +1,142 @@
+// PropertySearchForm.js
+import React, { useState } from "react";
+import Select from "react-select";
+import { useRouter } from "next/router";
+
+export const PropertySearchForm = ({ onSearch, areas }) => {
+    const router = useRouter();
+
+    // Form state
+    const [forSale, setForSale] = useState(false);
+    const [forRent, setForRent] = useState(false);
+    const [minPrice, setMinPrice] = useState("");
+    const [maxPrice, setMaxPrice] = useState("");
+    const [minBedrooms, setMinBedrooms] = useState("");
+    const [maxBedrooms, setMaxBedrooms] = useState("");
+    const [area, setArea] = useState([]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onSearch({
+            forSale,
+            forRent,
+            minPrice,
+            maxPrice,
+            minBedrooms,
+            maxBedrooms,
+            area,
+        });
+    };
+
+    return (
+        <form
+            onSubmit={handleSubmit}
+            className="flex flex-wrap space-x-4 space-y-2 justify-center"
+        >
+            <div className="flex items-center space-x-2 pt-2">
+                <input
+                    id="forSale"
+                    type="checkbox"
+                    checked={forSale}
+                    onChange={(e) => setForSale(e.target.checked)}
+                />
+                <label htmlFor="forSale">For Sale</label>
+            </div>
+            <div className="flex items-center space-x-2">
+                <input
+                    id="forRent"
+                    type="checkbox"
+                    checked={forRent}
+                    onChange={(e) => setForRent(e.target.checked)}
+                />
+                <label htmlFor="forRent">For Rent</label>
+            </div>
+            <div className="flex items-center space-x-2">
+                <label htmlFor="minPrice">Min Price:</label>
+                <input
+                    id="minPrice"
+                    type="number"
+                    value={minPrice}
+                    onChange={(e) => setMinPrice(e.target.value)}
+                    className="border h-8"
+                />
+            </div>
+            <div className="flex items-center space-x-2">
+                <label htmlFor="maxPrice">Max Price:</label>
+                <input
+                    id="maxPrice"
+                    type="number"
+                    value={maxPrice}
+                    onChange={(e) => setMaxPrice(e.target.value)}
+                    className="border h-8"
+                />
+            </div>
+            <div className="flex items-center space-x-2">
+                <label htmlFor="minBedrooms">Min Bedrooms:</label>
+                <input
+                    id="minBedrooms"
+                    type="number"
+                    value={minBedrooms}
+                    onChange={(e) => setMinBedrooms(e.target.value)}
+                    className="border h-8"
+                />
+            </div>
+            <div className="flex items-center space-x-2">
+                <label htmlFor="maxBedrooms">Max Bedrooms:</label>
+                <input
+                    id="maxBedrooms"
+                    type="number"
+                    value={maxBedrooms}
+                    onChange={(e) => setMaxBedrooms(e.target.value)}
+                    className="border h-8"
+                />
+            </div>
+            <div className="flex items-center space-x-2">
+                <label htmlFor="area" className="text-right mr-3">
+                    Area:
+                </label>
+                <Select
+                    id="area"
+                    value={area.map((area) => ({ label: area, value: area }))} // Convert area array to an array of objects
+                    onChange={(selectedOptions) => {
+                        const selectedAreas = selectedOptions.map(
+                            (option) => option.value
+                        );
+                        setArea(selectedAreas);
+                    }}
+                    options={areas.map((area) => ({
+                        label: area,
+                        value: area,
+                    }))}
+                    isMulti
+                    className="min-w-[200px]"
+                />
+            </div>
+            <button
+                type="submit"
+                className="px-4 py-2 bg-blue-500 text-white rounded-md"
+            >
+                Search
+            </button>
+            <button
+                onClick={() => {
+                    router.push({
+                        pathname: "/properties",
+                        query: {},
+                    });
+                    setForRent(false);
+                    setForSale(false);
+
+                    setMaxPrice("");
+                    setMinPrice("");
+                    setMinBedrooms("");
+                    setMaxBedrooms("");
+                    setArea([]);
+                }}
+                className="px-4 py-2 bg-red-500 text-white rounded-md"
+            >
+                Reset Search
+            </button>
+        </form>
+    );
+};

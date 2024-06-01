@@ -1,13 +1,10 @@
 // pages/properties.js
-import { useState } from "react";
 import { useRouter } from "next/router";
 import { getProperties, getAreas } from "../app/services/property.service.js";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import ReactPaginate from "react-paginate"
+import { PropertySearchForm } from "../app/components/propertySearchForm";
+import { PropertyList } from "../app/components/propertyList";
 import "../app/globals.css";
-import Image from "next/image";
-import ReactPaginate from "react-paginate";
-import Select from "react-select";
 
 export async function getServerSideProps(context) {
     return {
@@ -22,217 +19,30 @@ export default function Properties({ properties, areas }) {
     const router = useRouter();
     const numberFormat = new Intl.NumberFormat("en-US");
 
-    // Form state
-    const [forSale, setForSale] = useState(false);
-    const [forRent, setForRent] = useState(false);
-    const [minPrice, setMinPrice] = useState("");
-    const [maxPrice, setMaxPrice] = useState("");
-    const [minBedrooms, setMinBedrooms] = useState("");
-    const [maxBedrooms, setMaxBedrooms] = useState("");
-    const [area, setArea] = useState([]);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        // Refresh the page with new query parameters
-        router.push({
-            pathname: "/properties",
-            query: {
-                forSale,
-                forRent,
-                minPrice,
-                maxPrice,
-                minBedrooms,
-                maxBedrooms,
-                area,
-                page: 1, // always go back to the first page when the form is submitted
-            },
-        });
-    };
+    const handleSearch = (searchParams) => {
+      router.push({
+          pathname: "/properties",
+          query: {
+              ...searchParams,
+              page: 1, // always go back to the first page when the form is submitted
+          },
+      });
+  };
 
     return (
         <div className="container mx-auto">
             <h1 className="font-bold text-center py-6 text-6xl">
                 Properties for sale and rent in Thailand
             </h1>
-            <form
-                onSubmit={handleSubmit}
-                className="flex flex-wrap space-x-4 space-y-2 justify-center"
-            >
-                <div className="flex items-center space-x-2 pt-2">
-                    <input
-                        id="forSale"
-                        type="checkbox"
-                        checked={forSale}
-                        onChange={(e) => setForSale(e.target.checked)}
-                    />
-                    <label htmlFor="forSale">For Sale</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                    <input
-                        id="forRent"
-                        type="checkbox"
-                        checked={forRent}
-                        onChange={(e) => setForRent(e.target.checked)}
-                    />
-                    <label htmlFor="forRent">For Rent</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                    <label htmlFor="minPrice">Min Price:</label>
-                    <input
-                        id="minPrice"
-                        type="number"
-                        value={minPrice}
-                        onChange={(e) => setMinPrice(e.target.value)}
-                        className="border"
-                    />
-                </div>
-                <div className="flex items-center space-x-2">
-                    <label htmlFor="maxPrice">Max Price:</label>
-                    <input
-                        id="maxPrice"
-                        type="number"
-                        value={maxPrice}
-                        onChange={(e) => setMaxPrice(e.target.value)}
-                        className="border"
-                    />
-                </div>
-                <div className="flex items-center space-x-2">
-                    <label htmlFor="minBedrooms">Min Bedrooms:</label>
-                    <input
-                        id="minBedrooms"
-                        type="number"
-                        value={minBedrooms}
-                        onChange={(e) => setMinBedrooms(e.target.value)}
-                        className="border"
-                    />
-                </div>
-                <div className="flex items-center space-x-2">
-                    <label htmlFor="maxBedrooms">Max Bedrooms:</label>
-                    <input
-                        id="maxBedrooms"
-                        type="number"
-                        value={maxBedrooms}
-                        onChange={(e) => setMaxBedrooms(e.target.value)}
-                        className="border"
-                    />
-                </div>
-                <div className="flex items-center space-x-2">
-                    <label htmlFor="area" className="text-right mr-3">
-                        Area:
-                    </label>
-                    <Select
-                        id="area"
-                        value={area.map((area) => ({ label: area, value: area }))} // Convert area array to an array of objects
-                        onChange={(selectedOptions) => {
-                            const selectedAreas = selectedOptions.map(
-                                (option) => option.value
-                            );
-                            setArea(selectedAreas);
-                        }}
-                        options={areas.map((area) => ({
-                            label: area,
-                            value: area,
-                        }))}
-                        isMulti
-                        className="min-w-[200px]"
-                    />
-                </div>
-                <button
-                    type="submit"
-                    className="px-4 py-2 bg-blue-500 text-white rounded-md"
-                >
-                    Search
-                </button>
-                <button
-                    onClick={() => {
-                        router.push({
-                            pathname: "/properties",
-                            query: {},
-                        });
-                        setForRent(false);
-                        setForSale(false);
+            <PropertySearchForm onSearch={handleSearch} areas={areas} />
 
-                        setMaxPrice("");
-                        setMinPrice("");
-                        setMinBedrooms("");
-                        setMaxBedrooms("");
-                        setArea([]);
-                    }}
-                    className="px-4 py-2 bg-red-500 text-white rounded-md"
-                >
-                    Reset Search
-                </button>
-            </form>
-
-            <div className="flex justify-between">
+            <div className="flex justify-between py-4">
                 <p>Total Properties: {numberFormat.format(properties.total)}</p>
-                
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-                {properties.data.map((property) => (
-                    <div
-                        key={property.id}
-                        className="border p-4 rounded-lg space-y-4"
-                    >
-                        <Carousel>
-                            {property.imageGallery.map((image, index) => (
-                                <div key={index}>
-                                    <Image
-                                        key={index}
-                                        src={image}
-                                        width={300}
-                                        height={200}
-                                        alt={`Property ${property.id} Image ${
-                                            index + 1
-                                        }`}
-                                        className="w-full h-64 object-cover rounded-t-lg"
-                                    />
-                                </div>
-                            ))}
-                        </Carousel>
-                        <h2 className="text-xl font-semibold">
-                            {property.projectName}
-                        </h2>
-                        <p className="text-gray-700">{property.shortTitle}</p>
-                        <p className="text-sm text-gray-500">
-                            {property.shortDescription}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                            <span className="font-semibold">Area: </span>
-                            {property.area}
-                        </p>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                            <p className="border p-4 rounded-md flex justify-between items-center bg-gray-100">
-                                For Rent:{" "}
-                                <span className="font-bold">
-                                    {property.forRent ? "Yes" : "No"}
-                                </span>
-                            </p>
-                            <p className="border p-4 rounded-md flex justify-between items-center bg-gray-100">
-                                For Sale:{" "}
-                                <span className="font-bold">
-                                    {property.forSale ? "Yes" : "No"}
-                                </span>
-                            </p>
-                            <p className="border p-4 rounded-md flex justify-between items-center bg-gray-100">
-                                Price:{" "}
-                                <span className="font-bold">
-                                    {property.price}
-                                </span>
-                            </p>
-                            <p className="border p-4 rounded-md flex justify-between items-center bg-gray-100">
-                                Bedrooms:{" "}
-                                <span className="font-bold">
-                                    {property.bedroomCount}
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                ))}
-            </div>
-
+            <PropertyList properties={properties} />
+            
             <div className="my-4 flex justify-center">
                 <ReactPaginate
                     previousLabel={"previous"}
