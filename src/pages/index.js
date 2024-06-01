@@ -1,12 +1,11 @@
-// pages/properties.js
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { getProperties, getAreas } from "../app/services/property.service.js";
-import ReactPaginate from "react-paginate"
+import ReactPaginate from "react-paginate";
 import { PropertySearchForm } from "../app/components/propertySearchForm.js";
 import { PropertyList } from "../app/components/propertyList.js";
 import "../app/globals.css";
-import { numberWithCommas } from "../app/utilities/convertor.js"
-
+import { numberWithCommas } from "../app/utilities/convertor.js";
 export async function getServerSideProps(context) {
     return {
         props: {
@@ -19,26 +18,49 @@ export async function getServerSideProps(context) {
 export default function Properties({ properties, areas }) {
     const router = useRouter();
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const handleSearch = (searchParams) => {
-      router.push({
-          pathname: "/",
-          query: {
-              ...searchParams,
-              page: 1, // always go back to the first page when the form is submitted
-          },
-      });
-  };
+        router.push({
+            pathname: "/",
+            query: {
+                ...searchParams,
+                page: 1, // always go back to the first page when the form is submitted
+            },
+        });
+    };
+
+    const handlePageChange = ({ selected }) => {
+        setIsLoading(true);
+
+        router
+            .push({
+                pathname: "/",
+                query: {
+                    ...router.query,
+                    page: selected + 1,
+                },
+            })
+            .then(() => setIsLoading(false));
+    };
 
     return (
         <div className="container mx-auto">
             <h1 className="font-bold text-center py-6 text-6xl">
-                {numberWithCommas(properties.total)} Properties for sale and rent in Thailand
+                {numberWithCommas(properties.total)} Properties for sale and
+                rent in Thailand
             </h1>
 
-            <PropertySearchForm onSearch={handleSearch} areas={areas}/>
+            <PropertySearchForm onSearch={handleSearch} areas={areas} />
 
-            <PropertyList properties={properties} />
-            
+            {isLoading ? (
+                <div className="flex justify-center items-center min-h-screen">
+                    <div class="border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
+                </div>
+            ) : (
+                <PropertyList properties={properties} />
+            )}
+
             <div className="my-4 flex justify-center">
                 <ReactPaginate
                     previousLabel={"previous"}
@@ -48,15 +70,7 @@ export default function Properties({ properties, areas }) {
                     pageCount={properties.pages}
                     marginPagesDisplayed={2}
                     pageRangeDisplayed={5}
-                    onPageChange={({ selected }) =>
-                        router.push({
-                            pathname: "/",
-                            query: {
-                                ...router.query,
-                                page: selected + 1,
-                            },
-                        })
-                    }
+                    onPageChange={handlePageChange}
                     containerClassName={
                         "pagination flex list-none justify-center my-2 flex-wrap"
                     }

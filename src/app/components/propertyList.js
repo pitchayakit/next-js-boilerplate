@@ -21,6 +21,7 @@ export const PropertyList = ({ properties }) => {
                                         index + 1
                                     }`}
                                     className="w-full h-64 object-cover rounded-t-lg"
+                                    loading="lazy"
                                 />
                             </div>
                         ))}
