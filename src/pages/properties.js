@@ -1,7 +1,7 @@
 // pages/properties.js
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { getProperties } from "../app/services/property.service.js";
+import { getProperties, getAreas } from "../app/services/property.service.js";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "../app/globals.css";
@@ -9,12 +9,15 @@ import Image from "next/image";
 import ReactPaginate from "react-paginate";
 
 export async function getServerSideProps(context) {
-    const properties = await getProperties(context.query);
-
-    return { props: { properties: properties } };
+    return {
+        props: {
+            properties: await getProperties(context.query),
+            areas: await getAreas(),
+        },
+    };
 }
 
-export default function Properties({ properties }) {
+export default function Properties({ properties, areas }) {
     const router = useRouter();
     const numberFormat = new Intl.NumberFormat("en-US");
 
@@ -25,6 +28,7 @@ export default function Properties({ properties }) {
     const [maxPrice, setMaxPrice] = useState("");
     const [minBedrooms, setMinBedrooms] = useState("");
     const [maxBedrooms, setMaxBedrooms] = useState("");
+    const [area, setArea] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -39,8 +43,7 @@ export default function Properties({ properties }) {
                 maxPrice,
                 minBedrooms,
                 maxBedrooms,
-                minArea,
-                maxArea,
+                area,
                 page: 1, // always go back to the first page when the form is submitted
             },
         });
@@ -113,6 +116,22 @@ export default function Properties({ properties }) {
                         className="border"
                     />
                 </div>
+                <div className="flex items-center space-x-2">
+                    <label htmlFor="area">Area:</label>
+                    <select
+                        id="area"
+                        value={area}
+                        onChange={(e) => setArea(e.target.value)}
+                        className="border"
+                    >
+                        <option value="">Select an area</option>
+                        {areas.map((area) => (
+                            <option key={area} value={area}>
+                                {area}
+                            </option>
+                        ))}
+                    </select>
+                </div>
                 <button
                     type="submit"
                     className="px-4 py-2 bg-blue-500 text-white rounded-md"
@@ -124,12 +143,20 @@ export default function Properties({ properties }) {
             <div className="flex justify-between">
                 <p>Total Properties: {numberFormat.format(properties.total)}</p>
                 <button
-                    onClick={() =>
+                    onClick={() => {
                         router.push({
                             pathname: "/properties",
                             query: {},
-                        })
-                    }
+                        });
+                        setForRent(false);
+                        setForSale(false);
+
+                        setMaxPrice("");
+                        setMinPrice("");
+                        setMinBedrooms("");
+                        setMaxBedrooms("");
+                        setArea("");
+                    }}
                     className="px-4 py-2 bg-red-500 text-white rounded-md"
                 >
                     Clear Search
@@ -165,6 +192,7 @@ export default function Properties({ properties }) {
                         <p className="text-sm text-gray-500">
                             {property.shortDescription}
                         </p>
+                        <p className="text-sm text-gray-500"><span className="font-semibold">Area: </span>{property.area}</p>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                             <p className="border p-4 rounded-md flex justify-between items-center bg-gray-100">
                                 For Rent:{" "}
@@ -188,12 +216,6 @@ export default function Properties({ properties }) {
                                 Bedrooms:{" "}
                                 <span className="font-bold">
                                     {property.bedroomCount}
-                                </span>
-                            </p>
-                            <p className="border p-4 rounded-md flex justify-between items-center bg-gray-100">
-                                Area:{" "}
-                                <span className="font-bold">
-                                    {property.area}
                                 </span>
                             </p>
                         </div>

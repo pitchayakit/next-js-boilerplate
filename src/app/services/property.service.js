@@ -10,6 +10,7 @@ export async function getProperties(query) {
     const maxPrice = Number(query.maxPrice) || null;
     const minBedrooms = Number(query.minBedrooms) || null;
     const maxBedrooms = Number(query.maxBedrooms) || null;
+    const area = query.area || null;
 
     const where = {};
     if (forSale) {
@@ -46,6 +47,10 @@ export async function getProperties(query) {
         };
     }
 
+    if (area) {
+        where.area = area;
+    }
+
     const limit = 9; // number of records per page
     const page = query.page ? Number(query.page) : 1;
     const offset = (page - 1) * limit;
@@ -57,4 +62,13 @@ export async function getProperties(query) {
         pages: Math.ceil(count / limit),
         total: count,
     }
+}
+
+export async function getAreas() {
+    const properties = await Property.findAll({
+        attributes: ["area"],
+        group: ["area"],
+    });
+
+    return properties.map((property) => property.area);
 }
