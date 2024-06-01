@@ -1,6 +1,5 @@
 // pages/properties.js
-import models from "../app/models/index.mjs";
-
+import models from "../app/models/index.js";
 const { Property } = models;
 
 export async function getServerSideProps() {

@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import Property from "./property.mjs";
+import Property from "./property.js";
 import sequelize from "../database/sequelize.mjs";
 
 const models = {
