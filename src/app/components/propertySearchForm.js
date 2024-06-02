@@ -1,4 +1,3 @@
-// PropertySearchForm.js
 import React, { useState } from "react";
 import Select from "react-select";
 import { useRouter } from "next/router";
@@ -27,6 +26,20 @@ export const PropertySearchForm = ({ onSearch, areas }) => {
             area,
         });
     };
+
+    const handleReset = () => {
+        router.push({
+            pathname: "/",
+            query: {},
+        });
+        setForRent(false);
+        setForSale(false);
+        setMaxPrice("");
+        setMinPrice("");
+        setMinBedrooms("");
+        setMaxBedrooms("");
+        setArea([]);
+    }
 
     return (
         <form
@@ -127,20 +140,7 @@ export const PropertySearchForm = ({ onSearch, areas }) => {
                 Search
             </button>
             <button
-                onClick={() => {
-                    router.push({
-                        pathname: "/",
-                        query: {},
-                    });
-                    setForRent(false);
-                    setForSale(false);
-
-                    setMaxPrice("");
-                    setMinPrice("");
-                    setMinBedrooms("");
-                    setMaxBedrooms("");
-                    setArea([]);
-                }}
+                onClick={handleReset}
                 className="px-4 py-2 bg-red-500 text-white rounded-md"
             >
                 Reset Search

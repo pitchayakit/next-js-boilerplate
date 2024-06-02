@@ -1,5 +1,6 @@
 import Sequelize from "sequelize";
 import models from "../models";
+
 const { Property } = models;
 
 /**

@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import { getProperties, getAreas } from "../app/services/property.service.js";
-import ReactPaginate from "react-paginate";
-import { PropertySearchForm } from "../app/components/propertySearchForm.js";
-import { PropertyList } from "../app/components/propertyList.js";
 import "../app/globals.css";
+import React, { useState } from "react";
+import ReactPaginate from "react-paginate";
+import { PropertyList } from "../app/components/propertyList.js";
+import { PropertySearchForm } from "../app/components/propertySearchForm.js";
+import { getProperties, getAreas } from "../app/services/property.service.js";
 import { numberWithCommas } from "../app/utilities/convertor.js";
+import { useRouter } from "next/router";
+
 export async function getServerSideProps(context) {
     return {
         props: {
@@ -17,7 +18,6 @@ export async function getServerSideProps(context) {
 
 export default function Properties({ properties, areas }) {
     const router = useRouter();
-
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSearch = (searchParams) => {
@@ -40,7 +40,7 @@ export default function Properties({ properties, areas }) {
                 pathname: "/",
                 query: {
                     ...router.query,
-                    page: selected + 1,
+                    page: selected + 1, // selected is zero-based
                 },
             })
             .then(() => setIsLoading(false));
@@ -49,8 +49,7 @@ export default function Properties({ properties, areas }) {
     return (
         <div className="container mx-auto">
             <h1 className="font-bold text-center py-6 text-6xl">
-                {numberWithCommas(properties.total)} Properties for sale and
-                rent in Thailand
+                {numberWithCommas(properties.total)} Properties for sale and rent in Thailand
             </h1>
 
             <PropertySearchForm onSearch={handleSearch} areas={areas} />
