@@ -48,7 +48,6 @@ export const PropertySearchForm = ({ onSearch, areas }) => {
         >
             <div className="flex items-center space-x-4 pt-4">
                 <input
-                    id="forSale"
                     type="checkbox"
                     checked={forSale}
                     onChange={(e) => setForSale(e.target.checked)}
@@ -61,7 +60,6 @@ export const PropertySearchForm = ({ onSearch, areas }) => {
             </div>
             <div className="flex items-center space-x-4">
                 <input
-                    id="forRent"
                     type="checkbox"
                     checked={forRent}
                     onChange={(e) => setForRent(e.target.checked)}
@@ -75,7 +73,6 @@ export const PropertySearchForm = ({ onSearch, areas }) => {
             <div className="flex items-center space-x-2">
                 <label htmlFor="minPrice">Min Price:</label>
                 <input
-                    id="minPrice"
                     type="number"
                     value={minPrice}
                     onChange={(e) => setMinPrice(e.target.value)}
@@ -85,7 +82,6 @@ export const PropertySearchForm = ({ onSearch, areas }) => {
             <div className="flex items-center space-x-2">
                 <label htmlFor="maxPrice">Max Price:</label>
                 <input
-                    id="maxPrice"
                     type="number"
                     value={maxPrice}
                     onChange={(e) => setMaxPrice(e.target.value)}
@@ -95,7 +91,6 @@ export const PropertySearchForm = ({ onSearch, areas }) => {
             <div className="flex items-center space-x-2">
                 <label htmlFor="minBedrooms">Min Bedrooms:</label>
                 <input
-                    id="minBedrooms"
                     type="number"
                     value={minBedrooms}
                     onChange={(e) => setMinBedrooms(e.target.value)}
@@ -105,7 +100,6 @@ export const PropertySearchForm = ({ onSearch, areas }) => {
             <div className="flex items-center space-x-2">
                 <label htmlFor="maxBedrooms">Max Bedrooms:</label>
                 <input
-                    id="maxBedrooms"
                     type="number"
                     value={maxBedrooms}
                     onChange={(e) => setMaxBedrooms(e.target.value)}
@@ -117,7 +111,7 @@ export const PropertySearchForm = ({ onSearch, areas }) => {
                     Area:
                 </label>
                 <Select
-                    id="area"
+                    instanceId="area-select"
                     value={area.map((area) => ({ label: area, value: area }))} // Convert area array to an array of objects
                     onChange={(selectedOptions) => {
                         const selectedAreas = selectedOptions.map(

@@ -56,7 +56,7 @@ export default function Properties({ properties, areas }) {
 
             {isLoading ? (
                 <div className="flex justify-center items-center min-h-screen">
-                    <div class="border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
+                    <div className="border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
                 </div>
             ) : (
                 <PropertyList properties={properties} />
