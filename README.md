@@ -24,7 +24,7 @@ To start the application, follow these steps:
 3. Run the following command to start the Docker container:
 
 ```bash
-docker-compose up
+docker-compose up --build
 ```
 
 This command will start all the services defined in docker-compose.yml.
