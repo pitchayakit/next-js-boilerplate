@@ -6,7 +6,7 @@ const _ = require("lodash");
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         // Generate 1,000,000 properties.
-        const seedQty = 1000000;
+        const seedQty = 100000;
         const chunkSize = 50000;
         console.log(`Seeding ${seedQty} properties`);
 

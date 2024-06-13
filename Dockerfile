@@ -10,11 +10,11 @@ COPY . .
 RUN npm install
 
 # Add the entrypoint script
-COPY entrypoint.sh /usr/src/app
-RUN chmod +x /usr/src/app/entrypoint.sh
+# COPY entrypoint.sh /usr/src/app
+# RUN chmod +x /usr/src/app/entrypoint.sh
 
-# Set the entrypoint
-ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+# # Set the entrypoint
+# ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
 
 # Exports
 CMD ["npm", "run", "dev"]
